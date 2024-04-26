@@ -109,8 +109,10 @@ class TestingController extends AbstractController
                 $is_correct = true;
                 foreach ($answer_ids as $answer_id) {
                     $answer = null;
-                    foreach ($question->getAnswerVariants() as $answer_variant) {
-                        if ($answer_variant->getId() === $answer_id) {
+
+                    $question_answer_variants = $question->getAnswerVariants()->toArray();
+                    foreach ($question_answer_variants as $answer_variant) {
+                        if ($answer_variant->getId() === (int)$answer_id) {
                             $answer = $answer_variant;
                             break;
                         }
