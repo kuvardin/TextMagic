@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ test.getName()|e }}{% endblock %}
+
+{% block body %}
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">
+            {{ test.getName()|e }}
+            <a class="btn btn-sm btn-primary" href="/" style="float: right;">Назад</a>
+        </h6>
+        <form method="POST" action="/testing/{{ testing.getId() }}?{{ current_timestamp }}" data-turbo="false">
+            {% for question in questions %}
+                <div class="text-body-secondary pt-3">
+                    <p class="pb-3 mb-0 small lh-sm">{{ question.getText }}</p>
+                    {% for answerVariant in question.getAnswerVariants() %}
+                        <div class="form-check" style="border: none;">
+                            <input class="form-check-input" type="checkbox" name="answers[{{ question.getId() }}][]"
+                                   value="{{ answerVariant.getId() }}" id="flexCheckDefault_{{ question.getId() }}_{{ answerVariant.getId() }}">
+                            <label class="form-check-label" for="flexCheckDefault_{{ question.getId() }}_{{ answerVariant.getId() }}">
+                                {{  answerVariant.getText()|e }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+            {% endfor %}
+            <input type="submit" class="btn btn-primary" value="Завершить тест">
+        </form>
+    </div>
+{% endblock %}
